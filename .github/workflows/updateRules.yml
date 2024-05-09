@@ -1,0 +1,30 @@
+name: Update Rules
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 */3 * *'
+    
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3 
+    steps:
+      - uses: actions/checkout@v4
+          
+      - name: Update Rules
+        run: |
+          ./scripts/update.sh
+
+      - name: Git push assets to Github
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Updated at $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')"
+          git push origin -f
+
+      - name: Delete workflow runs 
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 0
+          keep_minimum_runs: 3
