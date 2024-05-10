@@ -1,5 +1,6 @@
 #!/bin/bash
 
+VERSION="v0.1.0"
 HOSTSOURCESLIST=(
 	"yhosts | https://raw.githubusercontent.com/VeleSila/yhosts/master/hosts"
 	"大圣净化 | https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts"

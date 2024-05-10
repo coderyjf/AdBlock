@@ -11,6 +11,7 @@ RULERESOURCES="$RESOURCES/ruleSources"
 HOSTSRESULT="$RESOURCES/hosts"
 RULESRESULT="$RESOURCES/rules"
 EXCLUDEFILE="$CUSTOMRULES/hosts"
+source "$CONFIGFILE"
 
 log() {
 	local log_type=$1
@@ -86,8 +87,23 @@ checkPackages() {
 	log "info" "All required software commands are already installed."
 }
 
+addTitle() {
+	local file=$1
+	local title=$(
+		cat <<END
+[Adblock Plus 2.0]
+! Title: CODERYJFADBLOCK
+! Homepage: https://github.com/coderyjf/AdBlock
+! Expires: 3 days
+! Version: $VERSION
+! Description: Fewer advertisement
+END
+	)
+	echo "$title" >"$file"
+	log "info" "Add title to $file."
+}
+
 downloadSources() {
-	source "$CONFIGFILE"
 	mkdir -p "$HOSTRESOURCES" "$RULERESOURCES"
 	log "info" "Downloading sources..."
 	for host_source in "${HOSTSOURCESLIST[@]}"; do
@@ -105,13 +121,15 @@ downloadSources() {
 }
 
 filterHost() {
+	addTitle "$HOSTSRESULT"
 	log "info" "Filter host resources..."
-	find "$HOSTRESOURCES" -type f -exec cat {} + | sed 's/^[[:space:]]*//' | grep -v -E '^((#.*)|(\s*))$' | grep -v -E '^[0-9f\.:]+\s+(ip6-)|(localhost|local|loopback|broadcasthost)$' | sed 's/#.*$//' | grep -Ev 'local.*\.local.*$' | sed 's/127.0.0.1/0.0.0.0/g' | sed 's/::/0.0.0.0/g' | grep '0.0.0.0' | grep -Ev '.0.0.0.0' | grep -Ev '#|\$|@|!|/|\\|\*' | sed 's/0.0.0.0//' | sed 's/\r$//' | sed 's/^ *//;s/ *$//' | sort -n | awk '!a[$0]++' | sed '/^$/d' | sed 's/^/||&/g' | sed 's/$/&^/g' >"$HOSTSRESULT"
+	find "$HOSTRESOURCES" -type f -exec cat {} + | sed 's/^[[:space:]]*//' | grep -v -E '^((#.*)|(\s*))$' | grep -v -E '^[0-9f\.:]+\s+(ip6-)|(localhost|local|loopback|broadcasthost)$' | sed 's/#.*$//' | grep -Ev 'local.*\.local.*$' | sed 's/127.0.0.1/0.0.0.0/g' | sed 's/::/0.0.0.0/g' | grep '0.0.0.0' | grep -Ev '.0.0.0.0' | grep -Ev '#|\$|@|!|/|\\|\*' | sed 's/0.0.0.0//' | sed 's/\r$//' | sed 's/^ *//;s/ *$//' | sort -n | awk '!a[$0]++' | sed '/^$/d' | sed 's/^/||&/g' | sed 's/$/&^/g' >>"$HOSTSRESULT"
 }
 
 filterRule() {
+	addTitle "$RULESRESULT"
 	log "info" "Filter rule resources..."
-	find "$RULERESOURCES" "$CUSTOMRULES" -type f -not -path "$EXCLUDEFILE" -exec cat {} + | sed '/^!/d' | sed '/^#[^#]*$/d' | sed '/^\[Adblock Plus.*/d' | sed 's/\r$//' | awk '!a[$0]++' | sed '/^$/d' >"$RULESRESULT"
+	find "$RULERESOURCES" "$CUSTOMRULES" -type f -not -path "$EXCLUDEFILE" -exec cat {} + | sed '/^!/d' | sed '/^#[^#]*$/d' | sed '/^\[Adblock Plus.*/d' | sed 's/\r$//' | awk '!a[$0]++' | sed '/^$/d' >>"$RULESRESULT"
 }
 
 cleanUp() {
