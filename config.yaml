@@ -12,6 +12,7 @@ RULESOURCESLIST=(
 	"antiAdForAdGuard | https://anti-ad.net/easylist.txt"
 	"Hblock | https://hblock.molinero.dev/hosts_adblock.txt"
 	"EasyList | https://easylist-downloads.adblockplus.org/easylist.txt"
+	"dont-care-about-cookies | https://www.i-dont-care-about-cookies.eu/abp/"
 	"EasyListChina | https://easylist-downloads.adblockplus.org/easylistchina.txt"
 	"EasyListPrivacy | https://easylist-downloads.adblockplus.org/easyprivacy.txt"
 	"AdGuardDNS | https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt"
