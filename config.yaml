@@ -9,7 +9,8 @@ HOSTSOURCESLIST=(
 )
 RULESOURCESLIST=(
 	"oisd | https://small.oisd.nl"
-	"antiAdForAdGuard | https://anti-ad.net/easylist.txt"
+ 	"antiAdForAdGuard1 | https://anti-ad.net/adguard.txt"
+	"antiAdForAdGuard2 | https://anti-ad.net/easylist.txt"
 	"Hblock | https://hblock.molinero.dev/hosts_adblock.txt"
 	"EasyList | https://easylist-downloads.adblockplus.org/easylist.txt"
 	"dont-care-about-cookies | https://www.i-dont-care-about-cookies.eu/abp/"
