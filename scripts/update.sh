@@ -89,10 +89,11 @@ checkPackages() {
 
 addTitle() {
 	local file=$1
+  local filename=$(echo "$file" | awk -F '/' '{print $NF}')
 	local title=$(
 		cat <<END
 [Adblock Plus 2.0]
-! Title: CODERYJFADBLOCK
+! Title: CODERYJFADBLOCK${filename^^}
 ! Homepage: https://github.com/coderyjf/AdBlock
 ! Expires: 3 days
 ! Version: $VERSION
