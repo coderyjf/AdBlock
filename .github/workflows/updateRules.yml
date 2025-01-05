@@ -24,24 +24,24 @@ jobs:
           git commit -m "Updated at $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')"
           git push origin -f
           
-      - name: Upload to Releases
-        uses: softprops/action-gh-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.TAG_NAME }}
-          body: ${{ env.TAG_NAME }}
-          files: |
-            ./rules/hosts
-            ./rules/rules
-          
-      - name: Remove old Releases
-        uses: dev-drprasad/delete-older-releases@master
-        with:
-          keep_latest: 2
-          delete_tags: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Upload to Releases
+      #   uses: softprops/action-gh-release@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ env.TAG_NAME }}
+      #     body: ${{ env.TAG_NAME }}
+      #     files: |
+      #       ./rules/hosts
+      #       ./rules/rules
+      #     
+      # - name: Remove old Releases
+      #   uses: dev-drprasad/delete-older-releases@master
+      #   with:
+      #     keep_latest: 2
+      #     delete_tags: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
 
       - name: Delete workflow runs 
